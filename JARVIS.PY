@@ -14,8 +14,6 @@ from art import text2art
 import webbrowser
 import MusicLibrary
 import requests # pip install requests
-import ollama
-
 
 engine=pyttsx3.init()
 voices=engine.getProperty('voices')
@@ -45,41 +43,34 @@ def Processcommand(c):
         if f"open {site[0]}" in c.lower():
             speak (f"opening {site[0]} as you asked for..............sir!")
             webbrowser.open(site[1])
-        
-    if c.lower().startswith("play"):
-        try:
+        elif c.lower().startswith("play"):
             song=c.lower().split(" ")[1]
             l=MusicLibrary.music[song]
             webbrowser.open(l)
-        except KeyError:
-            speak("Sorry, I couldn't find the song in your library.")
-    elif 'news' in c.lower():
-        response=requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}",timeout=15)
-        if response.status_code == 200:
-        # Parse the JSON response
-            data = response.json()
-        # Extract the articles
-            articles=data.get('articles',[])
+        elif 'news' in c.lower():
+            response=requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}",timeout=15)
+            if response.status_code == 200:
+            # Parse the JSON response
+                data = response.json()
+            # Extract the articles
+                articles=data.get('articles',[])
 
-        #Speak the headlines
-            for article in articles:
-                speak(article['title'])
+            #Speak the headlines
+                for article in articles:
+                    speak(article['title'])
+        elif " date" and "time" in c.lower():
+            t=time.localtime()
+            formatted_time= time.strftime("%d/%m/%Y %H:%M:%S")
         # strftime is a method used in Python to format datetime objects into strings according to a specified format.
         # The name stands for "string format time."
         # This method is part of the datetime module and allows you to convert datetime objects into human-readable strings by specifying a format using directives.
-
-    elif "time" in c.lower():
-        t=time.localtime()
-        formatted_time= time.strftime("%H:%M:%S",t)
-        print(formatted_time)
-        speak(formatted_time)
-    elif "date" in c.lower():
-        t=time.localtime()
-        formatted_date= time.strftime("%d/%m/%Y",t)
-        print(formatted_date)
-        speak(formatted_date)
-    elif 'chat' in c.lower():
-        
+            print(formatted_time)
+        elif "time" in c.lower():
+            t=time.localtime()
+            formatted_time= time.strftime("%H:%M:%S")
+        elif "date" in c.lower():
+            t=time.localtime()
+            formatted_time= time.strftime("%d/%m/%Y")
 def microphone():
     
     if __name__=='__main__':
@@ -119,11 +110,3 @@ def microphone():
 
 microphone()
 
-def chat():
-    speak("Now what do you want to ask from me?")
-    # Initialize the chat stream with a specific model
-    stream = ollama.chat(model="mistral",messages=[{"role":"user","content":"What is the capital of France?"}])
-
-    # Debug: Print the type and content of the stream object
-    print("Stream type:", type(stream))
-    print("Stream content:", stream)
