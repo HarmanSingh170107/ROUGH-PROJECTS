@@ -1,4 +1,4 @@
-from llama import Llama
+from ollama import Llama
 
 # Load the model (example, adjust as per actual usage)
 model = Llama.load_model('path/to/llama/model')

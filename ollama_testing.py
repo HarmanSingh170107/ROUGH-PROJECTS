@@ -2,11 +2,8 @@ import ollama
 
 # Initialize the chat stream with a specific model
 stream = ollama.chat(model="mistral",
-<<<<<<< HEAD
-                     prompt=[{"role":"user","content":"What is the capital of France?"}])
-=======
+
                      messages=[{"role":"user","content":"What is the capital of France?"}])
->>>>>>> cdb31c71806c055cfab1e09d2c9cdba0c908da89
 
 def ask_question(question):
     # Send a question to the chat model

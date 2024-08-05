@@ -1,4 +1,5 @@
-
+import speech_recognition
+import pyttsx3
 def chat():
     speak("Now what do you want to ask from me?")
     # Initialize the chat stream with a specific model
